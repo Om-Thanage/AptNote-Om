@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "287867991282",
+    "project_id": "aptnote",
+    "storage_bucket": "aptnote.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287867991282:android:c71f10c1eaa5150fab0c6b",
+        "android_client_info": {
+          "package_name": "com.example.habit_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_GgdrNcXPNN2H43AiQ3ellmXMJBhNIJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
