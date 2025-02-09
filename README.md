@@ -1,4 +1,4 @@
-# habit_tracker
+# aptnote
 
 A new Flutter project.
 

@@ -1,4 +1,4 @@
-package com.example.habit_tracker;
+package com.example.aptnote;
 
 import io.flutter.embedding.android.FlutterActivity;
 

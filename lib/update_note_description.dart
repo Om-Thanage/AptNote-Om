@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/services/firestore.dart';
+import 'package:aptnote/services/firestore.dart';
 
 class UpdateNoteDescription extends StatefulWidget {
   final String docId;
@@ -51,26 +51,37 @@ class _UpdateNoteDescriptionState extends State<UpdateNoteDescription> {
       appBar: AppBar(
         backgroundColor: Colors.lightBlueAccent,
         centerTitle: true,
-        title: const Text("Update Note"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: TextField(
+          controller: _titleController,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.check, color: Colors.white),
+            onPressed: updateNote, // Calls updateNote function
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: "Title"),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _contentController,
-              maxLines: null,
-              decoration: const InputDecoration(labelText: "Content"),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: updateNote,
-              child: const Text("Update"),
+            Expanded(
+              child: TextField(
+                controller: _contentController,
+                maxLines: null,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+              ),
             ),
           ],
         ),

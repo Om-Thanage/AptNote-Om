@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/firebase_options.dart';
-import 'package:habit_tracker/inner_note_description_screen.dart';
-import 'package:habit_tracker/loading_screen.dart';
+import 'package:aptnote/firebase_options.dart';
+import 'package:aptnote/inner_note_description_screen.dart';
+import 'package:aptnote/loading_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:habit_tracker/services/firestore.dart';
-import 'package:habit_tracker/update_note_description.dart';
+import 'package:aptnote/services/firestore.dart';
+import 'package:aptnote/update_note_description.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +34,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final FirestoreService firestoreService = FirestoreService();
+  final TextEditingController searchController = TextEditingController();
+  String searchQuery = '';
 
 
   @override
@@ -78,13 +80,19 @@ class _MainScreenState extends State<MainScreen> {
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(12.0),
                       ),
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(Icons.search, size: 20.0, color: Colors.black54),
-                          SizedBox(width: 10),
+                          const Icon(Icons.search, size: 20.0, color: Colors.black54),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: TextField(
-                              decoration: InputDecoration(
+                              controller: searchController,
+                              onChanged: (value) {
+                                setState(() {
+                                  searchQuery = value.toLowerCase(); // Update searchQuery when user types
+                                });
+                              },
+                              decoration: const InputDecoration(
                                 hintText: "Search for Notes",
                                 border: InputBorder.none,
                                 hintStyle: TextStyle(
@@ -118,7 +126,11 @@ class _MainScreenState extends State<MainScreen> {
                         );
                       }
 
-                      var notes = snapshot.data!.docs;
+                      var notes = snapshot.data!.docs.where((note) {
+                        var title = note['title'].toString().toLowerCase();
+                        var content = note['note'].toString().toLowerCase();
+                        return title.contains(searchQuery) || content.contains(searchQuery);
+                      }).toList();
                       return ListView.builder(
                         itemCount: notes.length,
                         itemBuilder: (context, index) {

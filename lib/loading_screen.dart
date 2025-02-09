@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/main.dart';
+import 'package:aptnote/main.dart';
 import 'dart:async';
 
 class LoadingScreen extends StatefulWidget{

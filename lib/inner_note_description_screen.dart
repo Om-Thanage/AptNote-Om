@@ -1,5 +1,5 @@
+import 'package:aptnote/services/firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/services/firestore.dart';
 
 class InnerNoteDescriptionScreen extends StatefulWidget {
   const InnerNoteDescriptionScreen({super.key});
