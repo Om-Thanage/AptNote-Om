@@ -1,5 +1,6 @@
 import 'package:aptnote/services/firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
 class InnerNoteDescriptionScreen extends StatefulWidget {
   const InnerNoteDescriptionScreen({super.key});
@@ -9,8 +10,7 @@ class InnerNoteDescriptionScreen extends StatefulWidget {
       _InnerNoteDescriptionScreenState();
 }
 
-class _InnerNoteDescriptionScreenState
-    extends State<InnerNoteDescriptionScreen> {
+class _InnerNoteDescriptionScreenState extends State<InnerNoteDescriptionScreen> {
   // Firestore service
   final FirestoreService firestoreService = FirestoreService();
 
@@ -18,7 +18,31 @@ class _InnerNoteDescriptionScreenState
   final TextEditingController titleController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
 
-  void handleAddNote() {
+  // Gemini model for title generation
+  final model = GenerativeModel(
+    model: 'gemini-pro',
+    apiKey: 'AIzaSyC2OcmwW3wE2ka4QeVsUYsEbY8PHjBxeqQ', // Replace with your API key
+  );
+
+  // Function to generate title using Gemini
+  Future<String> generateTitle(String content) async {
+    try {
+      final prompt = [Content.text('Generate a short title (maximum 3 words) for this note: $content')];
+      final response = await model.generateContent(prompt);
+      return response.text?.trim() ?? 'Untitled Note';
+    } catch (e) {
+      print('Error generating title: $e');
+      return 'Untitled Note';
+    }
+  }
+
+  void handleAddNote() async {
+    // If title is empty, generate one using the note content
+    if (titleController.text.isEmpty && noteController.text.isNotEmpty) {
+      String generatedTitle = await generateTitle(noteController.text);
+      titleController.text = generatedTitle;
+    }
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -72,7 +96,7 @@ class _InnerNoteDescriptionScreenState
         actions: [
           IconButton(
             icon: const Icon(Icons.check, color: Colors.white),
-            onPressed: handleAddNote, // Calls handleAddNote function
+            onPressed: handleAddNote,
           ),
         ],
       ),
