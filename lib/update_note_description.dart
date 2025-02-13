@@ -29,13 +29,18 @@ class _UpdateNoteDescriptionState extends State<UpdateNoteDescription> {
     _contentController = TextEditingController(text: widget.content);
   }
 
+  
+
   void updateNote() async {
+    
     try {
       await firestoreService.updateNote(
         widget.docId,
         _titleController.text,
         _contentController.text,
       );
+
+      if(!mounted) return;
 
       Navigator.pop(context);
     } catch (e) {

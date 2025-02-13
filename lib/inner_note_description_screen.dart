@@ -56,6 +56,8 @@ class _InnerNoteDescriptionScreenState extends State<InnerNoteDescriptionScreen>
       String generatedTitle = await generateTitle(noteController.text);
       titleController.text = generatedTitle;
     }
+    
+    if(!mounted) return;
 
     showDialog(
       context: context,

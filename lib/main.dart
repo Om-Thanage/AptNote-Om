@@ -194,14 +194,16 @@ class _MainScreenState extends State<MainScreen> {
                                   IconButton(
                                     icon: const Icon(Icons.delete, color: Colors.red),
                                     onPressed: () {
+                                      final navigator = Navigator.of(context);
+                                      final scaffoldMessenger = ScaffoldMessenger.of(context);
                                       showDialog(
                                         context: context,
-                                        builder: (context) => AlertDialog(
+                                        builder: (dialogContext) => AlertDialog(
                                           content: const Text("Do you want to delete this note?"),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
-                                                Navigator.pop(context); // Close dialog
+                                                navigator.pop(); // Close dialog
                                               },
                                               child: const Text("Cancel"),
                                             ),
@@ -209,13 +211,13 @@ class _MainScreenState extends State<MainScreen> {
                                               onPressed: () async {
                                                 try {
                                                   await firestoreService.deleteNote(docId);
-                                                  Navigator.pop(context); // Close dialog
-                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                  navigator.pop();
+                                                  scaffoldMessenger.showSnackBar(
                                                     const SnackBar(content: Text('Note deleted successfully')),
                                                   );
                                                 } catch (e) {
-                                                  Navigator.pop(context); // Close dialog
-                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                  navigator.pop();
+                                                  scaffoldMessenger.showSnackBar(
                                                     SnackBar(content: Text('Error deleting note: $e')),
                                                   );
                                                 }
