@@ -1,7 +1,6 @@
 import 'package:aptnote/services/firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class InnerNoteDescriptionScreen extends StatefulWidget {
   const InnerNoteDescriptionScreen({super.key});
@@ -25,15 +24,11 @@ class _InnerNoteDescriptionScreenState extends State<InnerNoteDescriptionScreen>
   @override
   void initState() {
     super.initState();
-    final apiKey = dotenv.env['API_KEY'];
-    if (apiKey == null || apiKey.isEmpty) {
-      print('Error: API_KEY not found in .env file');
-    } else {
+    const apiKey = 'AIzaSyC2OcmwW3wE2ka4QeVsUYsEbY8PHjBxeqQ';
       model = GenerativeModel(
         model: 'gemini-pro',
         apiKey: apiKey,
       );
-    }
   }
 
   // Function to generate title using Gemini
